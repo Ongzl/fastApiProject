@@ -1,11 +1,22 @@
+
+###
 # Test your FastAPI endpoints
 
-GET http://127.0.0.1:8000/add?id=2&name=Agent2
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "elon"
+}
+
+###
+POST http://127.0.0.1:8000/del?id=5
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/hello/User
+GET http://127.0.0.1:8000/get?id=4
 Accept: application/json
 
 ###

@@ -14,6 +14,16 @@ logger = logging.getLogger()
 class Person(BaseModel):
     name: str
 
+def isNameInDict(name, dict):
+    for val in dict.values():
+        if isinstance(val, int):
+            continue
+        if name in val.values():
+            return True
+        else:
+            continue
+    return False
+
 app = FastAPI()
 
 @app.get("/")
@@ -36,13 +46,19 @@ async def get(id: str):
 async def add(person: Person):
     with open('data.json', 'r+') as file:
         file_data = json.load(file)
-        ind = file_data["max"] + 1
-        file_data["max"] = file_data["max"] + 1
-        file_data[ind] = jsonable_encoder(person)
-        file.seek(0)
-        json.dump(file_data, file)
-        logger.info(f'added new person {ind}: {person.name}')
-        return person
+        print(person.name)
+        print(file_data.values())
+        if not isNameInDict(person.name, file_data):
+            ind = file_data["max"] + 1
+            file_data["max"] = file_data["max"] + 1
+            file_data[ind] = jsonable_encoder(person)
+            file.seek(0)
+            json.dump(file_data, file)
+            logger.info(f'added new person {ind}: {person.name}')
+            return person
+        else:
+            logger.info(f'tried to add existing person: {person.name}')
+            return "person already exist"
 
 @app.post("/del")
 async def delete(id:str):
