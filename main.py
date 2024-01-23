@@ -3,6 +3,13 @@ import json
 from pydantic import BaseModel
 from random import randint
 from fastapi.encoders import jsonable_encoder
+import logging
+
+logging.basicConfig(filename="api.log",
+                    format='%(asctime)s %(message)s',
+                    filemode='w',
+                    level=logging.INFO)
+logger = logging.getLogger()
 
 class Person(BaseModel):
     name: str
@@ -18,8 +25,10 @@ async def get(id: str):
     with open('data.json', 'r') as read_file:
         data = json.load(read_file)
         if id in data and not id == 'max':
+            logger.info(f'get person id: {id}')
             return data[id]
         else:
+            logger.warning(f'attempt to get invalid id: {id}')
             return "INVALID ID"
 
 
@@ -32,13 +41,19 @@ async def add(person: Person):
         file_data[ind] = jsonable_encoder(person)
         file.seek(0)
         json.dump(file_data, file)
+        logger.info(f'added new person {ind}: {person.name}')
         return person
 
 @app.post("/del")
 async def delete(id:str):
     with open('data.json', 'r+') as file:
         file_data = json.load(file)
-        deleted = file_data.pop(id)
+        deleted = "NULL"
+        if id in file_data:
+            deleted = file_data.pop(id)
+            logger.info(f"deleted person {id}: {deleted['name']}")
+        else:
+            logger.warning(f'attempt to delete invalid id: {id}')
         file.seek(0)
         json.dump(file_data, file)
         file.truncate()
