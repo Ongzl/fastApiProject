@@ -54,6 +54,7 @@ async def add(person: Person):
         print(file_data.values())
         #name and number validation
         if not (all(name.isalpha() or name.isspace() for name in person.name) and person.number.isnumeric()):
+f            logger.warning(f'failed name/number regex, attempted to add existing person: {person.name}, {person.number}')
             return "invalid name or phone number. only alphabets in name and numbers in number"
         #check for repeated name
         if not isValueInDict(person.name, file_data) and not isValueInDict(person.number, file_data):
@@ -64,10 +65,10 @@ async def add(person: Person):
             file_data[ind] = jsonable_encoder(person)
             file.seek(0)
             json.dump(file_data, file)
-            logger.info(f'added new person {ind}: {person.name}')
+            logger.info(f'added new person {ind}: {person.name}, {person.number}')
             return person
         else:
-            logger.info(f'tried to add existing person: {person.name}')
+            logger.warning(f'attempted to add existing person: {person.name}, {person.number}')
             return "person already exist"
 
 @app.post("/del")
@@ -77,14 +78,14 @@ async def delete(id:str, name:str):
         deleted = "NULL"
         if id in file_data:
             #check that name supplied is same as name in db
-            if file_data[id]['name'] == name:
+            if isValueInDict(name, file_data):
                 deleted = file_data.pop(id)
                 logger.info(f"deleted person {id}: {deleted['name']}")
             else:
-                logger.warning(f'attempt to delete id: {id}, but name mismatch')
+                logger.warning(f'attempted to delete id: {id}, but name mismatch')
                 return "name and id mismatch"
         else:
-            logger.warning(f'attempt to delete invalid id: {id}')
+            logger.warning(f'attempted to delete invalid id: {id}')
         file.seek(0)
         json.dump(file_data, file)
         file.truncate()
