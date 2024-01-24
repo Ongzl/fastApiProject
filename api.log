@@ -1,0 +1,11 @@
+2024-01-24 13:41:14,695 tried to add existing person: elon
+2024-01-24 13:41:15,107 deleted person 4: john smith
+2024-01-24 13:41:15,157 attempt to get invalid id: 4
+2024-01-24 13:41:54,177 tried to add existing person: elon
+2024-01-24 13:43:09,998 added new person 4: johnsmith
+2024-01-24 13:44:48,456 tried to add existing person: john smith
+2024-01-24 13:45:28,562 deleted person 4: johnsmith
+2024-01-24 13:46:03,467 added new person 5: john smith
+2024-01-24 13:46:15,842 tried to add existing person: john smith
+2024-01-24 13:47:06,002 tried to add existing person: jack smith
+2024-01-24 14:00:04,124 attempt to delete invalid id: 4
