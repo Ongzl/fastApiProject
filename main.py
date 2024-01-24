@@ -54,7 +54,7 @@ async def add(person: Person):
         print(file_data.values())
         #name and number validation
         if not (all(name.isalpha() or name.isspace() for name in person.name) and person.number.isnumeric()):
-f            logger.warning(f'failed name/number regex, attempted to add existing person: {person.name}, {person.number}')
+            logger.warning(f'failed name/number regex, attempted to add existing person: {person.name}, {person.number}')
             return "invalid name or phone number. only alphabets in name and numbers in number"
         #check for repeated name
         if not isValueInDict(person.name, file_data) and not isValueInDict(person.number, file_data):
