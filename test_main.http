@@ -1,17 +1,52 @@
 
 ###
 # Test your FastAPI endpoints
-
+# with optional id which does nth
 POST http://127.0.0.1:8000/add
 Content-Type: application/json
 Accept: application/json
 
 {
-"name": "elon"
+  "id": "11",
+"name": "elon",
+  "number": "96385274"
 }
 
 ###
-POST http://127.0.0.1:8000/del?id=5
+#without optional id
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "john smith",
+  "number": "96385279"
+}
+
+###
+#with number in @name fail successfully
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "john smith1",
+  "number": "96385279"
+}
+
+###
+#with symbol in @number fail successfully
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "john smith",
+  "number": "963852-71"
+}
+
+###
+POST http://127.0.0.1:8000/del?id=4&name=john smith
 Accept: application/json
 
 ###
