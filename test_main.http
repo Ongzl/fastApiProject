@@ -24,6 +24,28 @@ Accept: application/json
 }
 
 ###
+#same name diff number fail successfully
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "john smith",
+  "number": "96385269"
+}
+
+###
+#same number diff name fail successfully
+POST http://127.0.0.1:8000/add
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "jack smith",
+  "number": "96385279"
+}
+
+###
 #with number in @name fail successfully
 POST http://127.0.0.1:8000/add
 Content-Type: application/json

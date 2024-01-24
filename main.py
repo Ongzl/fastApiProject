@@ -8,7 +8,7 @@ from typing import Union
 
 logging.basicConfig(filename="api.log",
                     format='%(asctime)s %(message)s',
-                    filemode='w',
+                    filemode='a',
                     level=logging.INFO)
 logger = logging.getLogger()
 
@@ -17,11 +17,11 @@ class Person(BaseModel):
     name: str
     number: str
 
-def isNameInDict(name, dict):
+def isValueInDict(value, dict):
     for val in dict.values():
         if isinstance(val, int):
             continue
-        if name in val.values():
+        if value in val.values():
             return True
         else:
             continue
@@ -53,10 +53,10 @@ async def add(person: Person):
         print(person.name)
         print(file_data.values())
         #name and number validation
-        if not (person.name.isalpha() and person.number.isnumeric()):
+        if not (all(name.isalpha() or name.isspace() for name in person.name) and person.number.isnumeric()):
             return "invalid name or phone number. only alphabets in name and numbers in number"
         #check for repeated name
-        if not isNameInDict(person.name, file_data):
+        if not isValueInDict(person.name, file_data) and not isValueInDict(person.number, file_data):
             ind = file_data["max"] + 1
             file_data["max"] = file_data["max"] + 1
             #set optional id of person to be same as dict index
