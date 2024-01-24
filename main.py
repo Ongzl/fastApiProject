@@ -27,6 +27,9 @@ def isValueInDict(value, dict):
             continue
     return False
 
+# def openJson(mode):
+#     return open('data.json', mode)
+
 app = FastAPI()
 
 @app.get("/")
@@ -35,14 +38,14 @@ async def hello():
 
 @app.get("/get")
 async def get(id: str):
-    with open('data.json', 'r') as read_file:
-        data = json.load(read_file)
+    with open('data.json', 'r') as file:
+        data = json.load(file)
         #check that user not trying to get extra info(number of person in db), and that id exists
         if id in data and not id == 'max':
             logger.info(f'get person id: {id}')
             return data[id]
         else:
-            logger.warning(f'attempt to get invalid id: {id}')
+            logger.warning(f'attempted to get invalid id: {id}')
             return "INVALID ID"
 
 
