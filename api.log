@@ -9,3 +9,4 @@
 2024-01-24 13:46:15,842 tried to add existing person: john smith
 2024-01-24 13:47:06,002 tried to add existing person: jack smith
 2024-01-24 14:00:04,124 attempt to delete invalid id: 4
+2024-01-24 20:36:56,783 get person id: 1
